@@ -20,7 +20,7 @@ ENV    DEBIAN_FRONTEND noninteractive
 RUN    apt-get --yes update; apt-get --yes upgrade
 RUN    apt-get --yes install wget build-essential libpq-dev nodejs
 
-# Install the panel
+# Install the panel dependencies
 RUN mkdir /teamspeakpanel
 WORKDIR /teamspeakpanel
 ADD Gemfile /teamspeakpanel/Gemfile
@@ -30,9 +30,9 @@ RUN bundle install
 RUN    wget http://dl.4players.de/ts/releases/3.0.11.3/teamspeak3-server_linux-amd64-3.0.11.3.tar.gz
 RUN    tar zxf teamspeak3-server_linux-amd64-3.0.11.3.tar.gz; mv teamspeak3-server_linux-amd64 /opt/teamspeak; rm teamspeak3-server_linux-amd64-3.0.11.3.tar.gz
 
+# Install the panel and migrate the database
 ADD . /teamspeakpanel
 RUN rake db:migrate
-
 WORKDIR /
 
 # Load in all of our config files.
@@ -45,7 +45,9 @@ RUN    chmod +x /start
 EXPOSE 9987/udp
 EXPOSE 10011
 EXPOSE 30033
-EXPOSE 80
+EXPOSE 3000
 
 VOLUME ["/data"]
+VOLUME ["/teamspeakpanel"]
+
 CMD    ["/start"]
