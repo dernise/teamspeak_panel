@@ -33,6 +33,7 @@ RUN    tar zxf teamspeak3-server_linux-amd64-3.0.11.3.tar.gz; mv teamspeak3-serv
 # Install the panel and migrate the database
 ADD . /teamspeakpanel
 RUN rake db:migrate
+RUN rake db:seed
 WORKDIR /
 
 # Load in all of our config files.
