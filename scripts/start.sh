@@ -32,6 +32,7 @@ cd /opt/teamspeak
 ./ts3server_minimal_runscript.sh start &
 
 cd /teamspeakpanel
+git pull
 bundle update
 rake db:migrate
 rails s
