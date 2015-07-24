@@ -18,7 +18,7 @@ ENV    DEBIAN_FRONTEND noninteractive
 
 # Download and install everything from the repos.
 RUN    apt-get --yes update; apt-get --yes upgrade
-RUN    apt-get --yes install wget build-essential libpq-dev
+RUN    apt-get --yes install wget build-essential libpq-dev nodejs
 
 # Install the panel
 RUN mkdir /teamspeakpanel
@@ -33,8 +33,10 @@ RUN    tar zxf teamspeak3-server_linux-amd64-3.0.11.3.tar.gz; mv teamspeak3-serv
 ADD . /teamspeakpanel
 RUN rake db:migrate
 
+WORKDIR /
+
 # Load in all of our config files.
-ADD    ./scripts/start /start
+ADD    ./scripts/start.sh /start
 
 # Fix all permissions
 RUN    chmod +x /start

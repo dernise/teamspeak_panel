@@ -29,7 +29,7 @@ fi
 # Run the teamspeak server
 export LD_LIBRARY_PATH=/opt/teamspeak
 cd /opt/teamspeak
-./ts3server_minimal_runscript.sh start
+./ts3server_minimal_runscript.sh start &
 
 cd /teamspeakpanel && rails s
 
