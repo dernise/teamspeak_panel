@@ -1,0 +1,17 @@
+.panel.panel-default
+  .panel-heading
+    %h4
+      Server Tokens
+  .panel-body
+    %table.table.table-striped
+      %tr
+        %th.span1
+          Key
+        %th.span1
+          Description
+      - @tokens.each do |token|
+        %tr
+          %td
+            = token['token_key']
+          %td
+            = token['token_description']
