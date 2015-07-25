@@ -11,19 +11,22 @@
 # -----------------------------------------------------------------------------
 
 # Base system is the LTS version of Ubuntu.
-FROM   ruby:2.2.0
+FROM phusion/baseimage
 
 # Make sure we don't get notifications we can't answer during building.
 ENV    DEBIAN_FRONTEND noninteractive
 
 # Download and install everything from the repos.
-RUN    apt-get --yes update; apt-get --yes upgrade
-RUN    apt-get --yes install wget build-essential libpq-dev nodejs
+RUN    apt-get install software-properties-common
+RUN    apt-add-repository ppa:brightbox/ruby-ng
+RUN    apt-get --yes update
+RUN    apt-get --yes install libsqlite3-dev git ruby2.2 ruby2.2-dev wget build-essential libpq-dev nodejs
 
 # Install the panel dependencies
 RUN mkdir /teamspeakpanel
 WORKDIR /teamspeakpanel
 ADD Gemfile /teamspeakpanel/Gemfile
+RUN gem install bundler
 RUN bundle install
 
 # Download and install TeamSpeak 3
